@@ -19,19 +19,14 @@
 
 - [ ] softmax関数、cross_entropy_error関数、sigmoid関数の実装 (一旦 experiments/common_functions.pyへ)
 - [ ] grad関数の実装
-- 以下、サンプル
-- [ ] 重み初期化方式（He vs Xavier）の比較
-- [ ] optimizer（SGD → Adam）切替実験
-- [ ] 実験結果の保存形式（CSV / JSON / pickle）
-- 以上、サンプル
 
 ## 開発の大まかな項目
 
-- MNISTデータセットロード
-- バッチ処理
-- 損失関数
-- 勾配法
-- 2層NNのクラス(ミニバッチまで)
-- 誤差逆伝播法
-- CNN
-- その他学習上のテクニック
+- [x] MNISTデータセットロード
+- [ ] バッチ処理
+- [ ] 損失関数
+- [ ] 勾配法
+- [ ] 2層NNのクラス(ミニバッチまで)
+- [ ] 誤差逆伝播法
+- [ ] CNN
+- [ ] その他学習上のテクニック
