@@ -17,7 +17,6 @@
 
 ## 今後のアイデア（ToDo）
 
-<<<<<<< HEAD
 - [x] softmax関数、cross_entropy_error関数、sigmoid関数の実装 (一旦 experiments/common_functions.pyへ)
 - [ ] grad関数の実装(仮でベクトルに対しての勾配を導出する、のちに多次元に対応して実装)
 - 以下、サンプル
@@ -25,10 +24,6 @@
 - [ ] optimizer（SGD → Adam）切替実験
 - [ ] 実験結果の保存形式（CSV / JSON / pickle）
 - 以上、サンプル
-=======
-- [ ] softmax関数、cross_entropy_error関数、sigmoid関数の実装 (一旦 experiments/common_functions.pyへ)
-- [ ] grad関数の実装
->>>>>>> 9e24b861f473c4b05deeb0451843837d83d4b42a
 
 ## 開発の大まかな項目
 
