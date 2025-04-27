@@ -13,5 +13,5 @@ def cross_entropy_error(x, t): #valid only for one-hot case
     y=-np.sum(t*np.log(x+d))
     return y
 
-x = [5, 10, 0, 100000]
-print(softmax(x))
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
