@@ -8,9 +8,13 @@ def softmax(a):
     y = exp_a/sum_exp_a
     return y
 
-def cross_entropy_error(x, t): #valid only for one-hot case
-    d=1e-4
-    y=-np.sum(t*np.log(x+d))
+def cross_entropy_error(y, t): #valid only for one-hot case
+    if y.ndim == 1:
+        y = y.reshape(1, y.size)
+        t = t.reshape(1, t.size)
+        
+    batch_size = y.shape[0]
+    y = -np.sum(t * np.log(y)) / batch_size #using broadcast, average loss from all batch is calculated
     return y
 
 def sigmoid(x):

@@ -18,4 +18,6 @@ def mnist_load():
                             x_train=x_train, y_train=y_train,
                             x_test=x_test, y_test=y_test)
         print("⬇️ ダウンロード＆保存しました")
+    x_train = x_train.reshape(x_train.shape[0], -1)
+    y_train = y_train.reshape(y_train.shape[0], -1)
     return x_train, y_train
