@@ -8,13 +8,18 @@ def gradient(f, x): #初回の仕様は通常の微分で実装、
     it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
     while not it.finished:
         i = it.multi_index
-        print(i)
+#        print("grad.py : " + str(i))
+        
         tmp=x[i]
-        x[i] = tmp + h
-        fxh1=f(x)
-        x[i] = tmp - h
-        fxh2=f(x)
-        x[i] = tmp
+        
+        xh1 = x.copy()
+        xh1[i] = tmp + h
+        fxh1=f(xh1)
+        
+        xh2 = x.copy()
+        xh2[i] = tmp - h
+        fxh2=f(xh2)
+        
         grad[i] = (fxh1 - fxh2) / (2*h)
         
         it.iternext()
