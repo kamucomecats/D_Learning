@@ -9,8 +9,8 @@ class TwoLayerNet:
         self.params={}
         # 例: He初期化で W1 を初期化
         self.params['W1'] = np.random.randn(input_size, hidden_size) * np.sqrt(2.0 / input_size)
-        self.params['W2'] = np.random.randn(hidden_size, output_size) * np.sqrt(2.0 / hidden_size)
         self.params['b1'] = np.zeros(hidden_size)
+        self.params['W2'] = np.random.randn(hidden_size, output_size) * np.sqrt(2.0 / hidden_size)
         self.params['b2'] = np.zeros(output_size)
         
         self.layers = OrderedDict()
