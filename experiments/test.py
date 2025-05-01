@@ -1,6 +1,6 @@
 import numpy as np
 import mnist_load as ml
-import batch as bt
+from src.utils import batch as bt
 
 x_train, t_train = ml.mnist_load()
 

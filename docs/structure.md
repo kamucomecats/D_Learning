@@ -12,17 +12,17 @@
 │   ├── dev-notes.md
 │   └── structure.md
 ├── experiments # 試行錯誤・デバッグ用の実験コード
-│   ├── Layers.py
+│   ├── Layers.py # 誤差逆伝播法のレイヤー定義
 │   ├── __pycache__
-│   ├── batch.py
-│   ├── common_functions.py
-│   ├── grad.py
-│   ├── gradient_check.py
-│   ├── mnist_load.py
-│   ├── optimizer.py
-│   ├── test.py
-│   ├── train_nn.py
-│   └── two_layer_net.py
+│   ├── batch.py #ミニバッチ生成
+│   ├── common_functions.py #Softmaxなどを格納
+│   ├── grad.py #数値微分のみ、多次元対応済み
+│   ├── gradient_check.py #数値と逆伝播の勾配比較用
+│   ├── mnist_load.py #MNISTデータをone-hotでロード
+│   ├── optimizer.py #SGD、Momentumを格納
+│   ├── test.py #MNISTデータ形状の検証用
+│   ├── train_nn.py #本体、opt, grad切り替え可
+│   └── two_layer_net.py #NNモデル
 ├── mnist_local.npz
 ├── requirements.txt
 ├── src # 本番コード（モデル・トレーニング・前処理）
