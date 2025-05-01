@@ -44,6 +44,8 @@ class ReLULayer:
         out[(x <= 0)] = 0
         if self.save_cache:
             self.mask = (x <= 0)
+        ratio = np.count_nonzero(out) / out.size
+        print(f"ReLU nonzero ratio: {ratio:.3f}")
         return out
     
     def backward(self, dout):
@@ -85,7 +87,6 @@ class AffineLayer: #affine : store W, dW, B, dB by itself
     
     def backward(self, dY): #same as get X send back dX
         W = self.params[self.W_key]
-        B = self.params[self.b_key]
         self.dW = np.dot(self.X.T, dY)
         self.dB = np.sum(dY, axis=0)
         dX = np.dot(dY, W.T)

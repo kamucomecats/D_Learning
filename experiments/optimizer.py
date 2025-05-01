@@ -9,7 +9,7 @@ class SGD:
             params[key] -= self.lr * grads[key]
             
 class Momentum:
-    def __init__(self, lr=0.01, momentum=0.9):
+    def __init__(self, lr=0.0005, momentum=0.9):
         self.momentum = momentum
         self.lr = lr
         self.v = None

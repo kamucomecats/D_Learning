@@ -10,19 +10,26 @@ x_train, t_train = ml.mnist_load()
 
 train_loss_list = []
 
-iters_num = 10000
+iters_num = 1000
 train_size = x_train.shape[0]
 batch_size = 60000
-training_rate = 0.01
+training_rate = 0.0005
 
 network = TwoLayerNet(input_size=784, hidden_size=100, output_size=10)
 
-optimizer = op.SGD(lr = training_rate)
+optimizer = op.Momentum(lr = training_rate)
 
 for j in range(iters_num):
     x_batch, t_batch = batch(x=x_train, t=t_train, batch_size=100)
+    
+    loss = network.loss(x_batch, t_batch)
+    
+#    params = network.params
+#    print(params)
     grad = network.gradient(x_batch, t_batch)
-#    print(grad)
+    
+#    if j % 100 == 0:
+#        print(grad)
     
 
 #    for key in grad.keys():
@@ -33,7 +40,6 @@ for j in range(iters_num):
     
     optimizer.update(network.params, grad)
     
-    loss = network.loss(x_batch, t_batch)
     train_loss_list.append(loss)
 #    if iters_num % 100 == 0:
 #        for k, v in grad.items():
