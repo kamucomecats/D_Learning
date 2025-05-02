@@ -24,9 +24,9 @@
 - 各モジュールは**1つの責任**を持つよう設計（例：`minibatch.py` はバッチ生成のみ）
 - 関数やクラスは可能な限り**再利用できる粒度**に分割
 - 拡張時（例：活性化関数をReLU→Sigmoidに）に変更が局所化されるよう設計
-- 教師データはone-hotに統一する
+- 教師データはone-hot + flattenedに統一する→mnist_load内で実装
 - 学習対象は手書き数値識別のみに絞る
-- optimizerはパラメータで分離
+- optimizerはパラメータで分離、train_nnで切り替え可
 - forwardとbackwardは必ず完結するように
 - 
 

@@ -11,23 +11,24 @@
 │   ├── architecture.md
 │   ├── dev-notes.md
 │   └── structure.md
-├── experiments # 試行錯誤・デバッグ用の実験コード
-│   ├── Layers.py # 誤差逆伝播法のレイヤー定義
-│   ├── __pycache__
-│   ├── batch.py #ミニバッチ生成
-│   ├── common_functions.py #Softmaxなどを格納
-│   ├── grad.py #数値微分のみ、多次元対応済み
-│   ├── gradient_check.py #数値と逆伝播の勾配比較用
-│   ├── mnist_load.py #MNISTデータをone-hotでロード
-│   ├── optimizer.py #SGD、Momentumを格納
-│   ├── test.py #MNISTデータ形状の検証用
-│   ├── train_nn.py #本体、opt, grad切り替え可
-│   └── two_layer_net.py #NNモデル
+├── experiments
 ├── mnist_local.npz
 ├── requirements.txt
-├── src # 本番コード（モデル・トレーニング・前処理）
-│   ├── models #ニューラルネットワークの定義
-│   └── utils # 汎用的関数(ミニバッチの生成など)
+├── scripts
+│   └── train_nn.py                #本体、opt, grad切り替え可
+├── src
+│   ├── models                     #ニューラルネットワークの定義
+│   │   ├── __pycache__
+│   │   └── two_layer_net.py       #NNモデル
+│   └── utils                      # 汎用的関数(ミニバッチの生成など)
+│       ├── Layers.py              # 誤差逆伝播法のレイヤー定義
+│       ├── __pycache__
+│       ├── batch.py               #ミニバッチ生成
+│       ├── common_functions.py    #Softmaxなどを格納
+│       ├── grad.py                #数値微分のみ、多次元対応済み
+│       ├── gradient_check.py      #数値と逆伝播の勾配比較用
+│       ├── mnist_load.py          #MNISTデータをone-hotでロード
+│       └── optimizer.py           #SGD、Momentumを格納
 └── train_loss.png
 
 ---
