@@ -17,19 +17,22 @@ class TwoLayerNet:
         self.layers['Affine1'] = lyr.AffineLayer(self.params, 'W1', 'b1')
         self.layers['Relu1']   = lyr.ReLULayer()
         self.layers['Affine2'] = lyr.AffineLayer(self.params, 'W2', 'b2')
+        self.layers['Dropout'] = lyr.DropoutLayer(dropout_ratio=0.5)
         self.lastLayer = lyr.Softmax_with_lossLayer()
         
-    def predict(self, x, save_cache=False): #assume x.shape = [1, 784]
+    def predict(self, x, save_cache=False, train_flg=True): #assume x.shape = [1, 784]
         for layer in self.layers.values():
             if hasattr(layer, 'save_cache'):
                 layer.save_cache = save_cache
+            if hasattr(layer, 'Train_flg'):
+                layer.train_flg = train_flg
         out = x
         for layer in self.layers.values():
             out = layer.forward(out)#assume y.shape = [1, 10] (one-hot output)
         return out
     
-    def loss(self, x, t, save_cache=True):
-        y = self.predict(x, save_cache)
+    def loss(self, x, t, save_cache=True, train_flg=False): #cache is off only when predict called from loss
+        y = self.predict(x, save_cache, train_flg)
         return self.lastLayer.forward(y, t)
     
     def accuracy(self, x, t):
