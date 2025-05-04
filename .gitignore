@@ -1,1 +1,6 @@
 experiments/__pycache__/
+common/__pycache__/
+nn/__pycache__/
+.env
+.venv/
+train_loss.png

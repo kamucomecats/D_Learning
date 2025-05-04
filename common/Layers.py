@@ -1,5 +1,5 @@
 import numpy as np
-from src.utils import common_functions as cf
+from common import common_functions as cf
 
 #variables start from d works in backward
 #other variables held in each Layer
