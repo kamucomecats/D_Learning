@@ -7,30 +7,28 @@
 ## 📁 プロジェクト全体構成
 .
 ├── README.md
-├── docs
-│   ├── architecture.md
-│   ├── dev-notes.md
-│   └── structure.md
-├── experiments
+├── architecture.md
+├── cnn
+│   ├── train_nn.py
+│   └── two_layer_net.py
+├── common                         # 汎用的関数(ミニバッチの生成など)
+│   ├── __pycache__
+│   ├── batch.py                   # ミニバッチ生成
+│   ├── common_functions.py        # Softmaxなどを格納
+│   ├── grad.py                    # 数値微分のみ、多次元対応済み
+│   ├── gradient_check.py          # 数値と逆伝播の勾配比較用
+│   ├── mnist_load.py              # MNISTデータをone-hotでロード
+│   └── optimizer.py               # SGD、Momentumを格納
+├── dev-notes.md
 ├── mnist_local.npz
+├── nn
+│   ├── __pycache__
+│   ├── train_nn.py                # 本体、opt, grad切り替え可
+│   ├── Layers.py                  # 誤差逆伝播法のレイヤー定義
+│   └── two_layer_net.py           # NNモデル
 ├── requirements.txt
-├── scripts
-│   └── train_nn.py                #本体、opt, grad切り替え可
-├── src
-│   ├── models                     #ニューラルネットワークの定義
-│   │   ├── __pycache__
-│   │   └── two_layer_net.py       #NNモデル
-│   └── utils                      # 汎用的関数(ミニバッチの生成など)
-│       ├── Layers.py              # 誤差逆伝播法のレイヤー定義
-│       ├── __pycache__
-│       ├── batch.py               #ミニバッチ生成
-│       ├── common_functions.py    #Softmaxなどを格納
-│       ├── grad.py                #数値微分のみ、多次元対応済み
-│       ├── gradient_check.py      #数値と逆伝播の勾配比較用
-│       ├── mnist_load.py          #MNISTデータをone-hotでロード
-│       └── optimizer.py           #SGD、Momentumを格納
+├── structure.md
 └── train_loss.png
-
 ---
 
 ## 📌 各ディレクトリの詳細
@@ -58,15 +56,6 @@
 - 実験用であり、最終的に `src/` に統合されるか削除される可能性あり
 - ファイル冒頭に「目的」「使い方」「結果」など簡単なコメントを記載する
 
-### `data/`
-
-- 外部からダウンロードしたデータの保存場所
-- `.gitignore` に含めて Git 管理から除外（容量・ライセンスの観点）
-
-### `docs/`
-
-- 本プロジェクトの設計・開発記録などを Markdown 形式で管理
-- 他者が内容を理解しやすいよう、構成ファイルに相当する
 
 ---
 

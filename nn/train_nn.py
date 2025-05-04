@@ -1,10 +1,10 @@
 import numpy as np
-from src.utils import mnist_load as ml
-from src.utils import common_functions as cf
+from common import mnist_load as ml
+from common import common_functions as cf
 import matplotlib.pyplot as plt
-from src.utils import optimizer as op
-from src.utils import batch as bt
-from src.models.two_layer_net import TwoLayerNet
+from common import optimizer as op
+from common import batch as bt
+from nn.two_layer_net import TwoLayerNet
 
 x_train, t_train = ml.mnist_load()
 
