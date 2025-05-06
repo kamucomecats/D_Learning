@@ -4,7 +4,7 @@ from common import common_functions as cf
 import matplotlib.pyplot as plt
 from common import optimizer as op
 from common import batch as bt
-from nn.two_layer_net import TwoLayerNet
+from cnn.two_layer_net import TwoLayerNet
 
 x_train, t_train = ml.mnist_load()
 

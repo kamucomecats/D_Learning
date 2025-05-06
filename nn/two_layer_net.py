@@ -1,5 +1,5 @@
 import numpy as np
-from cnn import Layers as lyr
+from nn import Layers as lyr
 from common import common_functions as cf
 from collections import OrderedDict
 from common import grad as gr

@@ -1,8 +1,8 @@
 import numpy as np
-from src.utils import Layers as lyr
-from src.utils import common_functions as cf
+from cnn import Layers as lyr
+from common import common_functions as cf
 from collections import OrderedDict
-from src.utils import grad as gr
+from common import grad as gr
 
 class TwoLayerNet:
     def __init__(self, input_size, hidden_size, output_size, weight_init_std=1.0):
