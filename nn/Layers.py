@@ -3,6 +3,36 @@ from common import common_functions as cf
 
 #variables start from d works in backward
 #other variables held in each Layer
+class MulLayer:
+    def __init__(self):
+        self.x = None
+        self.y = None
+    
+    def forward(self, x, y):
+        self.x = x
+        self.y = y
+        out = x * y
+        return out
+    
+    def backward(self, dout):
+        dx = dout * self.y
+        dy = dout * self.x
+        return dx, dy
+    
+class AddLayer:
+    def __init__(self):
+        self.x = None
+        self.y = None
+        
+    def forward(self, x, y):
+        self.x = x
+        self.y = y
+        return x + y
+    
+    def backward(self, dout):
+        dx = dout * 1
+        dy = dout * 1
+        return dx, dy
     
 class ReLULayer:
     def __init__(self):
@@ -94,27 +124,3 @@ class DropoutLayer:
         
     def backward(self, dout):
         return dout * self.mask
-    
-class Convolution:
-    def __init__(self, params, W_key, b_key):
-        self.params = params
-        self.W_key = W_key
-        self.b_key = b_key
-        self.save_cache = True
-        self.X = None
-        self.dW = None
-        self.dB = None
-    
-    def forward(self, X):
-        W = self.params[self.W_key]
-        B = self.params[self.b_key]
-        if self.save_cache:
-            self.X = X # X should renew by forward
-        return np.dot(X, W) + B
-    
-    def backward(self, dY): #same as get X send back dX
-        W = self.params[self.W_key]
-        self.dW = np.dot(self.X.T, dY)
-        self.dB = np.sum(dY, axis=0)
-        dX = np.dot(dY, W.T)
-        return dX
