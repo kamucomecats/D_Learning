@@ -4,6 +4,8 @@ from common import common_functions as cf
 from collections import OrderedDict
 from common import grad as gr
 
+#W is 4-dim constantly
+
 class TwoLayerNet:
     def __init__(self, input_size, hidden_size, output_size, weight_init_std=1.0):
         self.params={}

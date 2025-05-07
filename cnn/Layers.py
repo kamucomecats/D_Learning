@@ -1,6 +1,6 @@
 import numpy as np
 from common import common_functions as cf
-
+from common import im2col as itc
 #variables start from d works in backward
 #other variables held in each Layer
     
@@ -96,21 +96,23 @@ class DropoutLayer:
         return dout * self.mask
     
 class Convolution:
-    def __init__(self, params, W_key, b_key):
-        self.params = params
-        self.W_key = W_key
-        self.b_key = b_key
+    def __init__(self, W, b, stride=1, pad=0):
+        self.W = W
+        self.b = b
         self.save_cache = True
+        self.stride = stride
+        self.pad = pad
         self.X = None
-        self.dW = None
-        self.dB = None
     
     def forward(self, X):
-        W = self.params[self.W_key]
-        B = self.params[self.b_key]
+        FN, C, FH, FW = self.W.shape
+        N, C, H, W = X.shape
         if self.save_cache:
             self.X = X # X should renew by forward
-        return np.dot(X, W) + B
+        col = itc.im2col(X, FH, FW, stride=self.stride, pad=self.pad)
+        col_W = self.W.reshape(FN, -1).T
+        out = np.dot(col, col_W) + self.b
+        out = out.reshape(N, C, )
     
     def backward(self, dY): #same as get X send back dX
         W = self.params[self.W_key]
