@@ -17,7 +17,7 @@ def im2col(X, FH, FW, stride=1, pad=0): #4-dim input intended
     strides = (s0, s1, s2 * stride, s3 * stride, s2, s3)
     
     patches = as_strided(X, shape=shape, strides=strides)
-    return patches.reshape(N, C, OH * OW, FH * FW).transpose(0, 2, 1, 3).reshape(N, C * OH * OW * FH * FW)
+    return patches.reshape(N * OH * OW, C * FH * FW) #per receptive-area
 
 def pad_input(x, pad):
     N, C, H, W = x.shape

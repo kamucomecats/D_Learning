@@ -120,3 +120,67 @@ class Convolution:
         self.dB = np.sum(dY, axis=0)
         dX = np.dot(dY, W.T)
         return dX
+    
+class Pooling:
+    def __init__(self, pool_h, pool_w, stride=1, pad=0):
+        self.pool_h = pool_h
+        self.pool_w = pool_w
+        self.stride = stride
+        self.pad = pad
+        self.X_shape = None
+        self.X_col = None
+        self.argmax = None
+    
+    def forward(self, X):
+        self.X_shape = X.shape
+        N, C, H, W = self.X_shape
+        OH = (H - self.pool_h) // self.stride + 1
+        OW = (W - self.pool_w) // self.stride + 1
+
+        X_col = itc.im2col(X, self.pool_h, self.pool_w, self.stride, self.pad)
+        #X_col.shape = (N * OH * OW, C * pool_h * pool_w)
+        self.X_col = X_col
+        X_col = X_col.reshape(N, C, self.pool_h * self.pool_w, -1)
+        #X_col.shape = (N, C, self.pool_h * self.pool_w, OH * OW)
+        self.argmax = np.argmax(X_col, axis=2)
+        #argmax.shape = ()
+        X_col = np.max(X_col, axis=2)
+        #X_col.shape = (N, C, OH, OW)
+        X_out = X_col.reshape(N, C, OH, OW)
+        
+        return X_out
+    
+    def backward(self, dY): #same as get X send back dX
+        #dY.shape = (N, C, OH, OW)
+        N, C, H, W = self.X_shape
+        OH = (H - self.pool_h) // self.stride + 1
+        OW = (W - self.pool_w) // self.stride + 1
+
+        dY = dY.reshape(N, C, OH * OW)
+        dmax = np.zeros(N, C, OH, OW)
+        for n in range(N):
+            for c in range(C):
+                pass
+
+        dmax = dY[self.argmax]
+        dX = dX.reshape(self.X_shape)
+        return dX
+
+x = np.array([[[[1.0, 2.0, 7.0],
+     [3.0, 5.0, 3.0],
+     [4.0, 8.0, 3.0],]],
+    [[[7.0, 2.0, 7.0],
+     [3.0, 5.0, 3.0],
+     [4.0, 8.0, 3.0],]]])
+
+print("1")
+print(x)
+print("2")
+print(x.shape)
+layer = Pooling(2, 2, 2, 0)
+x1 = layer.forward(x)
+print("3")
+print(x1)
+print("4")
+print(x1.shape)
+print("5")
