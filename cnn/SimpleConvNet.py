@@ -1,27 +1,42 @@
 import numpy as np
-from cnn import Layers as lyr
+from cnn import Layers
 from common import common_functions as cf
 from collections import OrderedDict
 from common import grad as gr
 
 #W is 4-dim constantly
 
-class TwoLayerNet:
-    def __init__(self, input_size, hidden_size, output_size, weight_init_std=1.0):
-        self.params={}
-        # 例: He初期化で W1 を初期化
-        self.params['W1'] = np.random.randn(input_size, hidden_size) * np.sqrt(2.0 / input_size)
-        self.params['b1'] = np.zeros(hidden_size)
-        self.params['W2'] = np.random.randn(hidden_size, output_size) * np.sqrt(2.0 / hidden_size)
-        self.params['b2'] = np.zeros(output_size)
-        
+class SimpleConvNet:
+    def __init__(self, input_dim=(1, 28, 28), conv_param={'filter_num':30, \
+        'filter_size':5, 'pad':0, 'stride':1}, hidden_size=100, output_size=10, \
+            weight_init_std=0.01):
+        filter_num = conv_param['filter_num']
+        filter_size = conv_param['filter_size']
+        filter_pad = conv_param['pad']
+        filter_stride = conv_param['stride']
+        input_size = input_dim[1]
+        conv_output_size = (input_size - filter_size + 2*filter_pad) /\
+        filter_stride + 1
+        pool_output_size = int(filter_num * (hidden_size/2) * (conv_output_size/2))
+
+        self.params = {}
+        self.params['W1'] = weight_init_std * np.random.randn(filter_num, input_dim[0], \
+                                                                filter_size, filter_size)
+        self.params['b1'] = np.zeros(filter_num)
+        self.params['W2'] = weight_init_std * np.random.randn(pool_output_size, hidden_size)
+        self.params['b2'] = np.zeros(hidden_size)
+        self.params['W3'] = weight_init_std * np.random.randn(hidden_size, output_size)
+        self.params['b3'] = np.zeros(output_size)
+
         self.layers = OrderedDict()
-        self.layers['Affine1'] = lyr.AffineLayer(self.params, 'W1', 'b1')
-        self.layers['Relu1']   = lyr.ReLULayer()
-        self.layers['Affine2'] = lyr.AffineLayer(self.params, 'W2', 'b2')
-        self.layers['Dropout'] = lyr.DropoutLayer(dropout_ratio=0.5)
-        self.lastLayer = lyr.Softmax_with_lossLayer()
-        
+        self.layers['Conv1'] = Convolution(self.params['W1'], self.params['b1'], \
+                                            conv_param['stride'], conv_param['pad'])
+        self.layers['Relu1'] = ReluLayer()
+        self.layers['Pool1'] = Pooling(pool_h=2, pool_w=2, stride=2)
+        self.layers['Affine1'] = Affine(self.params['W2'], self.params['b2'])
+        self.layers['Relu2'] = ReluLayer()
+        self.layers['Affine2'] = Affine(self.params['W3'], self.params['b3'])
+    
     def predict(self, x, save_cache=False, train_flg=True): #assume x.shape = [1, 784]
         for layer in self.layers.values():
             if hasattr(layer, 'save_cache'):
@@ -44,7 +59,7 @@ class TwoLayerNet:
         arg_t = np.argmax(t, axis=1) #conpress [batch_size, 10] into [batch_size] (array like 5, 7, 4, ...)
         rate = (float)(np.sum(arg_y==arg_t)) / size
         return rate
-        
+    
     def numerical_gradient(self, x, t):
         grads = {}
         h = 1e-4
@@ -106,3 +121,4 @@ class TwoLayerNet:
         grads['b2'] = self.layers['Affine2'].dB
         
         return grads
+    

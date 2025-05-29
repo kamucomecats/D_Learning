@@ -26,18 +26,4 @@ def pad_input(x, pad):
     x_pad = np.zeros((N, C, H_pad, W_pad), dtype=x.dtype)
     
     x_pad[:, :, pad:pad+H, pad:pad+W] = x
-    print(x_pad)
     return x_pad
-
-x = np.array([[[[1.0, 2.0, 7.0],
-     [3.0, 5.0, 3.0],
-     [4.0, 8.0, 3.0],]],
-    [[[7.0, 2.0, 7.0],
-     [3.0, 5.0, 3.0],
-     [4.0, 8.0, 3.0],]]])
-
-print(x)
-print(x.shape)
-x = im2col(x, FH=2, FW=2)
-print(x)
-print(x.shape)

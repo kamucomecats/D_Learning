@@ -1,6 +1,7 @@
 import numpy as np
 from common import common_functions as cf
 from common import im2col as itc
+from common import col2im as cti
 #variables start from d works in backward
 #other variables held in each Layer
     
@@ -160,27 +161,21 @@ class Pooling:
         dmax = np.zeros(N, C, OH, OW)
         for n in range(N):
             for c in range(C):
-                pass
+                dmax[n, c, self.argmax[n, c], np.arange(OH * OW)] = dY[n, c]
 
-        dmax = dY[self.argmax]
-        dX = dX.reshape(self.X_shape)
+        dcol = dmax.reshape(N * OH * OW, -1) #受容域ごと
+        # 逆変換で元の入力形状に戻す
+        dX = cti.col2im(dcol, self.X_shape, self.pool_h, self.pool_w, self.stride, self.pad)
         return dX
+    
+x = np.arange(1*1*4*4).reshape(1, 1, 4, 4).astype(np.float32)
+print("Original input:")
+print(x[0, 0])
 
-x = np.array([[[[1.0, 2.0, 7.0],
-     [3.0, 5.0, 3.0],
-     [4.0, 8.0, 3.0],]],
-    [[[7.0, 2.0, 7.0],
-     [3.0, 5.0, 3.0],
-     [4.0, 8.0, 3.0],]]])
+col = itc.im2col(x, 2, 2, stride=1, pad=0)
+print("im2col result:")
+print(col)
 
-print("1")
-print(x)
-print("2")
-print(x.shape)
-layer = Pooling(2, 2, 2, 0)
-x1 = layer.forward(x)
-print("3")
-print(x1)
-print("4")
-print(x1.shape)
-print("5")
+x_reconstructed = cti.col2im(col, x.shape, 2, 2, stride=1, pad=0)
+print("Reconstructed from col2im:")
+print(x_reconstructed[0, 0])
