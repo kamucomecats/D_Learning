@@ -1,5 +1,5 @@
 import numpy as np
-from cnn import Layers
+from cnn.Layers import ReLULayer, Pooling, AffineLayer, Convolution
 from common import common_functions as cf
 from collections import OrderedDict
 from common import grad as gr
@@ -31,11 +31,11 @@ class SimpleConvNet:
         self.layers = OrderedDict()
         self.layers['Conv1'] = Convolution(self.params['W1'], self.params['b1'], \
                                             conv_param['stride'], conv_param['pad'])
-        self.layers['Relu1'] = ReluLayer()
+        self.layers['Relu1'] = ReLULayer()
         self.layers['Pool1'] = Pooling(pool_h=2, pool_w=2, stride=2)
-        self.layers['Affine1'] = Affine(self.params['W2'], self.params['b2'])
-        self.layers['Relu2'] = ReluLayer()
-        self.layers['Affine2'] = Affine(self.params['W3'], self.params['b3'])
+        self.layers['Affine1'] = AffineLayer(self.params['W2'], self.params['b2'])
+        self.layers['Relu2'] = ReLULayer()
+        self.layers['Affine2'] = AffineLayer(self.params['W3'], self.params['b3'])
     
     def predict(self, x, save_cache=False, train_flg=True): #assume x.shape = [1, 784]
         for layer in self.layers.values():
