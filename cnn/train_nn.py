@@ -8,9 +8,9 @@ from common import common_functions as cf
 import matplotlib.pyplot as plt
 from common import optimizer as op
 from common import batch as bt
-from cnn.two_layer_net import TwoLayerNet
+from cnn.SimpleConvNet import SimpleConvNet
 
-x_train, t_train = ml.mnist_load()
+x_train, t_train, x_test, t_test = ml.mnist_load(flatten=False)
 
 train_loss_list = []
 
@@ -19,7 +19,7 @@ train_size = x_train.shape[0]
 batch_size = 60000
 training_rate = 0.0005
 
-network = TwoLayerNet(input_size=784, hidden_size=100, output_size=10)
+network = SimpleConvNet()
 
 optimizer = op.Momentum(lr = training_rate)
 
@@ -56,6 +56,5 @@ plt.ylabel('loss')
 plt.title('Training Loss')
 plt.savefig('train_loss.png')
 
-x_test, t_test = ml.mnist_load_test()
 acc = network.accuracy(x_test, t_test)
 print(f"Test Accuracy: {acc:.4f}")

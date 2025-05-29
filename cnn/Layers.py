@@ -11,7 +11,8 @@ class ReLULayer:
         self.save_cache = True
     
     def forward(self, x):
-        out = x.copy()
+        out = x
+        print(x)
         out[(x <= 0)] = 0
         if self.save_cache:
             self.mask = (x <= 0)
@@ -113,7 +114,7 @@ class Convolution:
         col = itc.im2col(X, FH, FW, stride=self.stride, pad=self.pad)
         col_W = self.W.reshape(FN, -1).T
         out = np.dot(col, col_W) + self.b
-        out = out.reshape(N, C, )
+        out = out.reshape(N, -1)
     
     def backward(self, dY): #same as get X send back dX
         W = self.params[self.W_key]
@@ -128,19 +129,21 @@ class Pooling:
         self.pool_w = pool_w
         self.stride = stride
         self.pad = pad
+        self.savecache = True
         self.X_shape = None
         self.X_col = None
         self.argmax = None
     
     def forward(self, X):
-        self.X_shape = X.shape
         N, C, H, W = self.X_shape
         OH = (H - self.pool_h) // self.stride + 1
         OW = (W - self.pool_w) // self.stride + 1
 
         X_col = itc.im2col(X, self.pool_h, self.pool_w, self.stride, self.pad)
         #X_col.shape = (N * OH * OW, C * pool_h * pool_w)
-        self.X_col = X_col
+        if self.savecache:
+            self.X_shape = X.shape
+            self.X_col = X_col
         X_col = X_col.reshape(N, C, self.pool_h * self.pool_w, -1)
         #X_col.shape = (N, C, self.pool_h * self.pool_w, OH * OW)
         self.argmax = np.argmax(X_col, axis=2)

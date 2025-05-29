@@ -33,9 +33,9 @@ class SimpleConvNet:
                                             conv_param['stride'], conv_param['pad'])
         self.layers['Relu1'] = ReLULayer()
         self.layers['Pool1'] = Pooling(pool_h=2, pool_w=2, stride=2)
-        self.layers['Affine1'] = AffineLayer(self.params['W2'], self.params['b2'])
+        self.layers['Affine1'] = AffineLayer(self.params, 'W2', 'b2')
         self.layers['Relu2'] = ReLULayer()
-        self.layers['Affine2'] = AffineLayer(self.params['W3'], self.params['b3'])
+        self.layers['Affine2'] = AffineLayer(self.params, 'W3', 'b3')
     
     def predict(self, x, save_cache=False, train_flg=True): #assume x.shape = [1, 784]
         for layer in self.layers.values():
@@ -115,10 +115,12 @@ class SimpleConvNet:
             dout = layer.backward(dout)
         
         grads = {}
-        grads['W1'] = self.layers['Affine1'].dW
-        grads['b1'] = self.layers['Affine1'].dB
-        grads['W2'] = self.layers['Affine2'].dW
-        grads['b2'] = self.layers['Affine2'].dB
+        grads['W1'] = self.layers['Conv1'].dW
+        grads['b1'] = self.layers['Conv1'].dB
+        grads['W2'] = self.layers['Affine1'].dW
+        grads['b2'] = self.layers['Affine1'].dB
+        grads['W3'] = self.layers['Affine2'].dW
+        grads['b3'] = self.layers['Affine2'].dB
         
         return grads
     
